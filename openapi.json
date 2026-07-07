@@ -1,0 +1,1854 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Nephia API",
+    "description": "Structured Vinted data API. Authenticate with an API key on your Account. Pull endpoints charge credits per request.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.nephia.io",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Search",
+      "description": "Search listings"
+    },
+    {
+      "name": "Items",
+      "description": "Listing details"
+    },
+    {
+      "name": "Users",
+      "description": "Seller profiles and listings"
+    },
+    {
+      "name": "Reference",
+      "description": "Catalog reference data"
+    },
+    {
+      "name": "Watches",
+      "description": "Realtime watch subscriptions"
+    },
+    {
+      "name": "Account",
+      "description": "Account balance"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "API key created from the Nephia dashboard for your Account."
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/vinted/search": {
+      "get": {
+        "operationId": "getV1VintedSearch",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "market",
+            "schema": {
+              "type": "string",
+              "default": "fr"
+            }
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "price_min",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "price_max",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "per_page",
+            "schema": {
+              "type": "number",
+              "maximum": 96
+            }
+          },
+          {
+            "in": "query",
+            "name": "brand_ids",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "size_ids",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "catalog_ids",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "color_ids",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "status_ids",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search Vinted listings",
+        "description": "Costs 1 credit per request.",
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "string"
+                          },
+                          "currency": {
+                            "type": "string"
+                          },
+                          "brand": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "color1": {
+                            "type": "string"
+                          },
+                          "photos": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "url": {
+                                  "type": "string"
+                                },
+                                "width": {
+                                  "type": "number"
+                                },
+                                "height": {
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "url"
+                              ]
+                            }
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "viewCount": {
+                            "type": "number"
+                          },
+                          "favouriteCount": {
+                            "type": "number"
+                          },
+                          "isReserved": {
+                            "type": "boolean"
+                          },
+                          "seller": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "login": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "login"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "title",
+                          "price",
+                          "currency",
+                          "url"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "currentPage": {
+                          "type": "number"
+                        },
+                        "totalPages": {
+                          "type": "number"
+                        },
+                        "totalEntries": {
+                          "type": "number"
+                        },
+                        "perPage": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "currentPage",
+                        "totalPages",
+                        "totalEntries",
+                        "perPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "pagination"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Upstream temporarily unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/vinted/items/{id}": {
+      "get": {
+        "operationId": "getV1VintedItemsById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "market",
+            "schema": {
+              "type": "string",
+              "default": "fr"
+            }
+          }
+        ],
+        "tags": [
+          "Items"
+        ],
+        "summary": "Get listing details",
+        "description": "Costs 1 credit per request.",
+        "responses": {
+          "200": {
+            "description": "Listing detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "string"
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "brand": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "color1": {
+                      "type": "string"
+                    },
+                    "color2": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "photos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string"
+                          },
+                          "width": {
+                            "type": "number"
+                          },
+                          "height": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "url"
+                        ]
+                      }
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "viewCount": {
+                      "type": "number"
+                    },
+                    "favouriteCount": {
+                      "type": "number"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "isReserved": {
+                      "type": "boolean"
+                    },
+                    "seller": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "login": {
+                          "type": "string"
+                        },
+                        "city": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "country": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "feedbackScore": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "feedbackCount": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "photoUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "login",
+                        "city",
+                        "country",
+                        "feedbackScore",
+                        "feedbackCount",
+                        "photoUrl"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "title",
+                    "description",
+                    "price",
+                    "currency",
+                    "brand",
+                    "size",
+                    "status",
+                    "color1",
+                    "color2",
+                    "photos",
+                    "url",
+                    "viewCount",
+                    "favouriteCount",
+                    "createdAt",
+                    "updatedAt",
+                    "isReserved",
+                    "seller"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Item not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Item temporarily unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/vinted/users/{id}": {
+      "get": {
+        "operationId": "getV1VintedUsersById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "market",
+            "schema": {
+              "type": "string",
+              "default": "fr"
+            }
+          }
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get seller profile",
+        "description": "Costs 1 credit per request.",
+        "responses": {
+          "200": {
+            "description": "Seller profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "login": {
+                      "type": "string"
+                    },
+                    "city": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "country": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "feedbackScore": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "feedbackCount": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "photoUrl": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "login",
+                    "city",
+                    "country",
+                    "feedbackScore",
+                    "feedbackCount",
+                    "photoUrl"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Seller not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Upstream temporarily unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/vinted/users/{id}/items": {
+      "get": {
+        "operationId": "getV1VintedUsersByIdItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "market",
+            "schema": {
+              "type": "string",
+              "default": "fr"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "per_page",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "List seller listings",
+        "description": "Costs 1 credit per request.",
+        "responses": {
+          "200": {
+            "description": "Seller listings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "string"
+                          },
+                          "currency": {
+                            "type": "string"
+                          },
+                          "brand": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "color1": {
+                            "type": "string"
+                          },
+                          "photos": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "url": {
+                                  "type": "string"
+                                },
+                                "width": {
+                                  "type": "number"
+                                },
+                                "height": {
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "url"
+                              ]
+                            }
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "viewCount": {
+                            "type": "number"
+                          },
+                          "favouriteCount": {
+                            "type": "number"
+                          },
+                          "isReserved": {
+                            "type": "boolean"
+                          },
+                          "seller": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "login": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "login"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "title",
+                          "price",
+                          "currency",
+                          "url"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "currentPage": {
+                          "type": "number"
+                        },
+                        "totalPages": {
+                          "type": "number"
+                        },
+                        "totalEntries": {
+                          "type": "number"
+                        },
+                        "perPage": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "currentPage",
+                        "totalPages",
+                        "totalEntries",
+                        "perPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "pagination"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Upstream temporarily unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/vinted/reference/{type}": {
+      "get": {
+        "operationId": "getV1VintedReferenceByType",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "brands",
+                "colors",
+                "statuses",
+                "catalogs",
+                "sizes",
+                "markets"
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "market",
+            "schema": {
+              "type": "string",
+              "default": "fr"
+            }
+          }
+        ],
+        "tags": [
+          "Reference"
+        ],
+        "summary": "List reference catalog data",
+        "description": "Costs 1 credit per request. Supported types: brands, colors, statuses, catalogs, sizes, markets.",
+        "responses": {
+          "200": {
+            "description": "Reference payload",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Reference not supported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Upstream temporarily unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/vinted/watches": {
+      "post": {
+        "operationId": "postV1VintedWatches",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "market": {
+                    "type": "string",
+                    "default": "fr"
+                  },
+                  "criteria": {
+                    "type": "object",
+                    "properties": {
+                      "market": {
+                        "type": "string",
+                        "default": "fr"
+                      },
+                      "query": {
+                        "type": "string"
+                      },
+                      "price_min": {
+                        "type": "number"
+                      },
+                      "price_max": {
+                        "type": "number"
+                      },
+                      "sort": {
+                        "type": "string"
+                      },
+                      "page": {
+                        "type": "number"
+                      },
+                      "per_page": {
+                        "type": "number",
+                        "maximum": 96
+                      },
+                      "brand_ids": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            }
+                          }
+                        ]
+                      },
+                      "size_ids": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            }
+                          }
+                        ]
+                      },
+                      "catalog_ids": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            }
+                          }
+                        ]
+                      },
+                      "color_ids": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            }
+                          }
+                        ]
+                      },
+                      "status_ids": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "refresh_interval_seconds": {
+                    "type": "number",
+                    "minimum": 15,
+                    "maximum": 3600
+                  },
+                  "webhook_url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "criteria",
+                  "refresh_interval_seconds",
+                  "webhook_url"
+                ]
+              }
+            }
+          }
+        },
+        "tags": [
+          "Watches"
+        ],
+        "summary": "Create a watch",
+        "description": "Subscribe to listing changes matching search criteria. Webhook delivery and billing are documented separately.",
+        "responses": {
+          "201": {
+            "description": "Watch created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "accountId": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string",
+                      "const": "vinted"
+                    },
+                    "market": {
+                      "type": "string"
+                    },
+                    "criteria": {
+                      "type": "object",
+                      "properties": {
+                        "market": {
+                          "type": "string"
+                        },
+                        "query": {
+                          "type": "string"
+                        },
+                        "priceMin": {
+                          "type": "number"
+                        },
+                        "priceMax": {
+                          "type": "number"
+                        },
+                        "sort": {
+                          "type": "string"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "perPage": {
+                          "type": "number"
+                        },
+                        "filters": {
+                          "type": "object",
+                          "additionalProperties": {}
+                        }
+                      },
+                      "required": [
+                        "market"
+                      ]
+                    },
+                    "criteriaHash": {
+                      "type": "string"
+                    },
+                    "refreshIntervalSeconds": {
+                      "type": "number"
+                    },
+                    "webhookUrl": {
+                      "type": "string"
+                    },
+                    "billingMode": {
+                      "type": "string",
+                      "enum": [
+                        "subscription",
+                        "payg",
+                        "deferred"
+                      ]
+                    },
+                    "isActive": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "accountId",
+                    "source",
+                    "market",
+                    "criteria",
+                    "criteriaHash",
+                    "refreshIntervalSeconds",
+                    "webhookUrl",
+                    "billingMode",
+                    "isActive",
+                    "createdAt",
+                    "updatedAt"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Active watch already exists for these criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/vinted/watches/{id}": {
+      "delete": {
+        "operationId": "deleteV1VintedWatchesById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "Watches"
+        ],
+        "summary": "Deactivate a watch",
+        "responses": {
+          "204": {
+            "description": "Watch deactivated"
+          },
+          "404": {
+            "description": "Watch not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/vinted/watches/{id}/events": {
+      "get": {
+        "operationId": "getV1VintedWatchesByIdEvents",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "since",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Watches"
+        ],
+        "summary": "List watch events",
+        "description": "Replay events since an ISO timestamp. Free — does not charge credits.",
+        "responses": {
+          "200": {
+            "description": "Watch events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "watchId": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "listing.created",
+                              "listing.delisted",
+                              "listing.price_changed"
+                            ]
+                          },
+                          "listing": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "source": {
+                                "type": "string",
+                                "const": "vinted"
+                              },
+                              "market": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "price": {
+                                "type": "number"
+                              },
+                              "currency": {
+                                "type": "string"
+                              },
+                              "brand": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "size": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "status": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "color1": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "color2": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "description": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "photos": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "url": {
+                                      "type": "string"
+                                    },
+                                    "width": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    },
+                                    "height": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "url",
+                                    "width",
+                                    "height"
+                                  ]
+                                }
+                              },
+                              "url": {
+                                "type": "string"
+                              },
+                              "createdAt": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "updatedAt": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "isReserved": {
+                                "type": "boolean"
+                              },
+                              "favouriteCount": {
+                                "type": [
+                                  "number",
+                                  "null"
+                                ]
+                              },
+                              "viewCount": {
+                                "type": [
+                                  "number",
+                                  "null"
+                                ]
+                              },
+                              "seller": {
+                                "type": [
+                                  "object",
+                                  "null"
+                                ],
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "login": {
+                                    "type": "string"
+                                  },
+                                  "city": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  },
+                                  "country": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  },
+                                  "feedbackScore": {
+                                    "type": [
+                                      "number",
+                                      "null"
+                                    ]
+                                  },
+                                  "feedbackCount": {
+                                    "type": [
+                                      "number",
+                                      "null"
+                                    ]
+                                  },
+                                  "photoUrl": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "login",
+                                  "city",
+                                  "country",
+                                  "feedbackScore",
+                                  "feedbackCount",
+                                  "photoUrl"
+                                ]
+                              },
+                              "sourceMetadata": {
+                                "type": "object",
+                                "additionalProperties": {}
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "source",
+                              "market",
+                              "title",
+                              "price",
+                              "currency",
+                              "brand",
+                              "size",
+                              "status",
+                              "color1",
+                              "color2",
+                              "description",
+                              "photos",
+                              "url",
+                              "createdAt",
+                              "updatedAt",
+                              "isReserved",
+                              "favouriteCount",
+                              "viewCount",
+                              "seller",
+                              "sourceMetadata"
+                            ]
+                          },
+                          "previousPrice": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "occurredAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "watchId",
+                          "type",
+                          "listing",
+                          "previousPrice",
+                          "occurredAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "events"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Watch not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/account/credits": {
+      "get": {
+        "operationId": "getV1AccountCredits",
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get credit balance",
+        "description": "Returns the remaining pull credits for your Account. Free — does not charge credits.",
+        "responses": {
+          "200": {
+            "description": "Credit balance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "credits": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "credits"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
